@@ -1,0 +1,91 @@
+﻿<h1 class="">To Do List v2</h1>
+
+<div class="jumbotron">
+	<input class="input-lg" type="text" id="taskName" style="text-align:center" placeholder="Enter task here...." />
+	<div class="btn btn-lg btn-success btn-block" onclick="ToDoApp.addTask()"><i class="fa fa-plus-circle"></i> Add Task</div>
+	<div class="btn btn-lg btn-danger btn-block" onclick="ToDoApp.clearDone()"><i class="fa fa-minus-circle"></i> Remove All Completed Tasks</div>
+</div>
+
+<div id="tableHolder">
+	<table class="table table-hover"></table>
+</div>
+
+<script>
+	/*~~~~~~~~~~~~~~~~~~Non Literal Constructor~~~~~~~~~~~~~~~~~~*/
+	/*Constructor for task objects*/
+	var ToDoApp = {}
+	ToDoApp.Task = function (name/*This is the title of the task*/) {
+		this.name = name;
+		this.isDone = false;
+		this.startTime = Date.now();
+	};
+
+	/*The array to hold tasks*/
+	ToDoApp.tasks = [];
+	/*Adds Tasks to the Tasks Array*/
+	ToDoApp.addTask = function () {
+		/*Access Element*/
+		var e = document.getElementById('taskName');
+		/*New Object*//*Extract Value*/
+		var t = new ToDoApp.Task(e.value);
+		/*Push to array*/
+		ToDoApp.tasks.push(t);
+		/*Clear Input*/
+		e.value = "";
+		/*Write to table*/
+		ToDoApp.tableWriter();
+	};
+	/*Write tasks to table*/
+	ToDoApp.tableWriter = function () {
+		var h = "<table class='table table-hover'>";
+		h += "<tr><th>Task</th></tr>";
+		/*for (var i = 0; i < tasks.length; i++)*/
+		for (var i in ToDoApp.tasks) {
+			var time = "";
+			if (ToDoApp.tasks[i].isDone) {
+				h += "<tr class='warning'>";
+				time = "<td>" + (ToDoApp.tasks[i].endTime - ToDoApp.tasks[i].startTime) / 1000 + "</td>";
+			}
+			else {
+				h += "<tr  >";
+			}
+			h += "<td onclick='ToDoApp.toggleDone(" + i + ")'>" + ToDoApp.tasks[i].name + "</td>";
+			h += "<td>" + new Date(ToDoApp.tasks[i].startTime).toLocaleString() + "</td>";
+			h += "<td><div class='btn btn-danger'onclick='ToDoApp.deleteTask(" + i + ")'>Delete</div></td>";
+			if (time) {
+				h += time;
+			}
+			h += "</tr>";
+		}
+		h += "</table>";
+		document.getElementById("tableHolder").innerHTML = h;
+	};
+	/*Marks tasks complete*/
+	ToDoApp.toggleDone = function (/*Index of element*/index) {
+		/*Set object task done*/
+		ToDoApp.tasks[index].isDone = !ToDoApp.tasks[index].isDone;
+		/*Finish Time*/
+		ToDoApp.tasks[index].endTime = Date.now();
+		/*Write table*/
+		ToDoApp.tableWriter();
+	};
+
+	/*Sort by done*/
+	ToDoApp.sortDone = function () { };
+
+	/*Clear finished*/
+	ToDoApp.clearDone = function () {
+		for (var i = ToDoApp.tasks.length - 1; i >= 0; i--) {
+			if (ToDoApp.tasks[i].isDone === true) {
+				ToDoApp.tasks.splice(i, 1);
+			}
+		}
+		ToDoApp.tableWriter();
+	};
+
+	/*Delete single Task*/
+	ToDoApp.deleteTask = function (index) {
+		ToDoApp.tasks.splice(index, 1);
+		ToDoApp.tableWriter();
+	};
+</script>

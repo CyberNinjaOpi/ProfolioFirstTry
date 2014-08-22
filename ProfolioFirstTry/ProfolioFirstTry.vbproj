@@ -89,9 +89,16 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\myCSS.css" />
+    <Content Include="Content\progressbar.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\AAT BATTLE TANK.jpeg" />
+    <Content Include="Images\Anakins Pod Racer.jpeg" />
     <Content Include="Images\download.jpg" />
+    <Content Include="Images\Imperial Shuttle.jpeg" />
+    <Content Include="Images\JEDI STARFIGHTER.jpeg" />
+    <Content Include="Images\Millennium-Falcon_018ea796.jpeg" />
+    <Content Include="Images\Naboo N-1 StarFighter.jpeg" />
     <Content Include="index.html" />
     <Content Include="MainJs.js" />
     <Content Include="Scripts\angular-animate.js" />
@@ -410,9 +417,15 @@
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Views\chirper.html" />
+    <Content Include="Views\home2.html" />
+    <Content Include="Views\spaceapp.html" />
     <Content Include="Views\contact.html" />
     <Content Include="Views\error.html" />
     <Content Include="Views\home.html" />
+    <Content Include="Views\quizapp.html" />
+    <Content Include="Views\spaceport.html" />
+    <Content Include="Views\todoapp.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

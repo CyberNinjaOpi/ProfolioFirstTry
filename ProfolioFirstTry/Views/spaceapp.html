@@ -1,0 +1,116 @@
+﻿<body style="font-family:transformers movie">
+	<h1 class="text-success" style="font-family:transformers movie">Space Ship Creator</h1>
+	<div class="well-sm" style="font-size:25px">
+		<input type="text" id="name" placeholder="Name" />
+		<input type="text" id="color" placeholder="Color" />
+		<input type="hidden" id="brand" />
+		<div class="btn btn-success" onclick="SpaceShip.newShip()"><i class="fa fa-spin fa-2x fa-space-shuttle"></i></div>
+	</div>
+	<div class="well" id="ships-table" style="font-size:20px">
+		<h2><i class="fa fa-spin fa-spinner"></i> Loading Table.....</h2>
+	</div>
+	<!--Modal Starts Here-->
+	<div class="modal fade" id="edit-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="fa-ul">
+						<li><i class="fa fa-li fa-user"></i><input class="input-sm" type="text" id="name-edit" /></li>
+						<li><i class="fa-li fa fa-tint"> </i><input class="input-sm" type="text" id="color-edit" /></li>
+						<li><i class="fa-li fa fa-eye"></i><input class="input-sm" type="text" id="brand-edit" /></li>
+					</ul>
+					<input type="hidden" id="index-edit" />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" onclick="SpaceShip.saveEditShip()">Save changes</button>
+					<div class="btn btn-danger" style="float:left;" onclick="SpaceShip.deleteShip()"><i class="fa fa-trash-o fa-2x"></i></div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</body>
+<script>
+	var SpaceShip = {};
+	SpaceShip.ships = [];
+
+	SpaceShip.Ship = function (name, color, brand) {
+		this.name = name;
+		this.color = color;
+		this.brand = brand;
+	};
+	SpaceShip.Ship.prototype.isBlownUp = true;
+
+	SpaceShip.newShip = function () {
+		var name = document.getElementById("name").value;
+		var color = document.getElementById("color").value;
+		SpaceShip.ships.unshift(new SpaceShip.Ship(name, color));
+		document.getElementById("name").value = '';
+		document.getElementById("color").value = " ";
+		SpaceShip.drawTable();
+	};
+	SpaceShip.drawTable = function () {
+		var table = "<table class='table table-hover'>";
+		table += "<tr>";
+		table += "<th class='text-success'>Name</th><th class='text-success'>Color</th><th class='text-success'>Brand</th><th class='text-success'><i class='fa fa-spin fa-cog'></i></th>"
+		table += "</tr>"
+		for (var s in SpaceShip.ships) {
+			if (!SpaceShip.ships[s].isBlownUp) {
+				table += "<tr style='text-decoration:line-through; color:red'>"
+			}
+			for (var x in SpaceShip.ships[s]) {
+				if (SpaceShip.ships[s].hasOwnProperty(x))
+					table += "<td>" + SpaceShip.ships[s][x] + "</td>";
+			}
+
+			table += "<td><button class='btn btn-danger' \
+		onclick='SpaceShip.killShip(" + s + ")'><i class='fa fa-times'> Blow Up</i></button> \
+		<button class='btn btn-warning' \
+        onclick='SpaceShip.showEditShip(" + s + ")'><i class='fa fa-spin fa-pencil'></i></button></td>";
+
+			table += "</tr>";
+		}
+		table += "</table>";
+		document.getElementById("ships-table").innerHTML = table;
+	};
+	SpaceShip.killShip = function (target) {
+		//No toggle...You only blow up once
+		SpaceShip.ships[target].isBlownUp = false;
+		SpaceShip.drawTable();
+	};
+	SpaceShip.deleteShip = function () {
+		var x = document.getElementById("index-edit").value;
+		SpaceShip.ships.splice(x, 1);
+		SpaceShip.drawTable();
+		$("#edit-modal").modal('hide');
+	};
+	SpaceShip.showEditShip = function (shipIndex) {
+		var selectedShip = SpaceShip.ships[shipIndex];
+		document.getElementById("name-edit").value = selectedShip.name;
+		document.getElementById("color-edit").value = selectedShip.color;
+		document.getElementById("brand-edit").value = selectedShip.brand;
+		document.getElementById("index-edit").value = shipIndex;
+		$("#edit-modal").modal();
+	};
+	SpaceShip.saveEditShip = function () {
+		"use strict";hipIndex 
+		var shipIndex, name, color, brand;
+		s= document.getElementById("index-edit").value;
+		SpaceShip.ships[shipIndex].name = document.getElementById("name-edit").value;
+		SpaceShip.ships[shipIndex].color = document.getElementById("color-edit").value;
+		SpaceShip.ships[shipIndex].brand = document.getElementById("brand-edit").value;
+		SpaceShip.drawTable();
+		$("#edit-modal").modal('hide');
+	};
+	SpaceShip.Seed = function () {
+		SpaceShip.ships.push(new SpaceShip.Ship("Dragon", "Silver", "SpaceX"));
+		SpaceShip.ships.push(new SpaceShip.Ship("Shuttle", "White", "NASA"));
+		SpaceShip.ships.push(new SpaceShip.Ship("Play-Doh", "Purple", "CDAC"));
+		SpaceShip.drawTable();
+	};
+	SpaceShip.Seed();
+</script>

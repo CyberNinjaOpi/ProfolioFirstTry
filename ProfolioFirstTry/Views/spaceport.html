@@ -1,0 +1,165 @@
+﻿<body style="font-family:StarWars">
+	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	<div class="jumbotron">
+		<style>
+			.input-sm {
+				width: 20%;
+			}
+		</style>
+		<h1 style="font-family:StarWars">Welcome To Mos Eisley</h1>
+		<h2 style="font-family:StarWars">Enjoy Your Stay</h2>
+		<button class="btn btn-warning" onclick="SpacePort.clearAll()"><i class="fa fa-bomb"></i></button>
+	</div>
+	<div class="well-lg ">
+		<input class="input-sm" type="text" id="name" placeholder="Ship Name..." />
+		<input class="input-sm" type="text" id="image" placeholder="URL for Ship image" />
+		<select id="affiliation" class="input-sm">
+			<option value="Imperial"> Imperial</option>
+			<option value="Rebel"> Rebel</option>
+			<option value="Etc."> Etc.</option>
+		</select>
+
+		<button class="btn btn-info" onclick="SpacePort.addShip()">Dock Ship</button>
+	</div>
+	<div id="tableHolder" class="well"></div>
+	<!--~~~~~~~~~~~~~~~~~~~~~~~~~Modal Start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	<div class="modal fade " id="editModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" style="font-family:StarWars" id="editTitle">Ship Entry For </h4>
+				</div>
+				<div class="modal-body" style="font-family:StarWars">
+
+					<i class="fa fa-rocket fa-2x"></i> <input class="input-sm" type="text" id="editName" /><br />
+					<i class="fa fa-image fa-2x"></i> <input class="input-sm" type="text" id="editImage" /><br />
+					<i class="fa fa-users fa-2x"></i> <select id="editAffiliation" class="input-sm">
+						<option value="Imperial"> Imperial</option>
+						<option value="Rebel"> Rebel</option>
+						<option value="Etc."> Etc.</option>
+					</select><br />
+					<i class="fa fa-gavel fa-2x"></i> <select id="editImpound" class="input-sm">
+						<option value="true">Impounded</option>
+						<option value="false">Free To Go</option>
+					</select>
+					<input type="hidden" id="index-edit" />
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!--~~~~~~~~~~~~~~~~~~~~~~~~~Modal End~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	<script>
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		var SpacePort = {};
+		SpacePort.ships = [];
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.Ship = function (name, affiliation, image) {
+			this.name = name;
+			this.affiliation = affiliation;
+			this.image = image;
+		};
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.Ship.prototype.isImpounded = false;
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.drawTable = function () {
+			var h = "<div class='container'>";
+			h += "<div class='row'>";
+			for (var i in SpacePort.ships) {
+				var display = "bg-default";
+				var currentShip = SpacePort.ships[i];
+				if (currentShip.isImpounded) {
+					display = "bg-danger";
+				}
+				h += "<div class='col-md-4 " + display + "'>";
+				h += "<h3 style='font-family:StarWars'>";
+				h += "<i class='" + SpacePort.getIconName(currentShip.affiliation) + "'></i>";
+				h += currentShip.name + "</h3>";
+				h += "<img src='" + currentShip.image + "' class='img-thumbnail img-responsive'>";
+				h += "<div class='btn btn-warning btn-block fa fa-pencil' onclick='SpacePort.showEditShip(" + i + ")'></div>";
+				if (currentShip.isImpounded) {
+					h += "<div class='btn btn-danger btn-block fa fa-lock disabled'></div>";
+				} else {
+					h += "<div class='btn btn-danger btn-block fa fa-times' onclick='SpacePort.scrapShip(" + i + ")'></div>";
+				}
+				h += "</div>";
+			}
+			h += "</div>";
+			h += "</div>";
+			document.getElementById("tableHolder").innerHTML = h;
+		};
+		/*Helps Pull Icon Names*/
+		SpacePort.getIconName = function (affiliation) {
+			if (affiliation === "Imperial") {
+				return "fa fa-empire";
+			} else if (affiliation === "Rebel") {
+				return "fa fa-rebel";
+			} else {
+				return "fa fa-rocket";
+			}
+		};
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~C.R.U.D.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.addShip = function () {
+			"use strict";
+			var name, affiliation, image;
+			name = document.getElementById("name");
+			affiliation = document.getElementById("affiliation");
+			image = document.getElementById("image");
+			var s = SpacePort.ships.push(new SpacePort.Ship(name.value, affiliation.value, image.value));
+			name.value = "";
+			affiliation.value = "";
+			image.value = "";
+			SpacePort.drawTable();
+		};
+		SpacePort.scrapShip = function (index) {
+			SpacePort.ships.splice(index, 1);
+			SpacePort.drawTable();
+		};
+		SpacePort.showEditShip = function (index) {
+			var ship = SpacePort.ships[index];
+			document.getElementById("editTitle").innerHTML = "Ship Information For The " + ship.name;
+			document.getElementById("editName").value = ship.name;
+			document.getElementById("editImage").value = ship.image;
+			document.getElementById("editAffiliation").value = ship.affiliation;
+			document.getElementById("editImpound").value = ship.isImpounded.toString();
+			document.getElementById("saveChangesButton").onclick = function () { SpacePort.saveEditShip(index); };
+			$("#editModal").modal();
+		};
+		SpacePort.saveEditShip = function (index) {
+			var ship = SpacePort.ships[index];
+			ship.name = document.getElementById("editName").value;
+			ship.image = document.getElementById("editImage").value;
+			ship.affiliation = document.getElementById("editAffiliation").value;
+			if (document.getElementById("editImpound").value === "true") {
+				ship.isImpounded = true;
+			} else {
+				delete ship.isImpounded;
+			}
+			$("#editModal").modal('hide');
+			SpacePort.drawTable();
+		};
+
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~A.J.A.X.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.sendToFireBase = function () { };
+		SpacePort.getFromFireBase = function () { };
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		SpacePort.clearAll = function () {
+			SpacePort.ships = [];
+			SpacePort.drawTable();
+		};
+		SpacePort.seed = function () {
+			SpacePort.ships.push(new SpacePort.Ship("Imperial Space Shuttle", "Imperial", "\Images/Imperial Shuttle.jpeg"));
+			SpacePort.ships.push(new SpacePort.Ship("Naboo N-1 StarFighter", "Rebel", "\Images/Naboo N-1 StarFighter.jpeg"));
+			SpacePort.ships.push(new SpacePort.Ship("Anakins Pod Racer", "Etc.", "\Images/Anakins Pod Racer.jpeg"));
+			SpacePort.ships.push(new SpacePort.Ship("AAT BATTLE TANK", "Imperial", "\Images/AAT BATTLE TANK.jpeg"));
+			SpacePort.ships.push(new SpacePort.Ship("JEDI STARFIGHTER", "Rebel", "\Images/JEDI STARFIGHTER.jpeg"));
+			SpacePort.ships.push(new SpacePort.Ship("MILLENNIUM FALCON", "Etc.", "\Images/Millennium-Falcon_018ea796.jpeg"));
+			SpacePort.drawTable();
+		};
+		SpacePort.seed();
+	</script>

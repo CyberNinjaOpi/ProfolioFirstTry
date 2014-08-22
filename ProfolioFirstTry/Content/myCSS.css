@@ -1,14 +1,10 @@
-﻿body {
+﻿@import url("//fonts.googleapis.com/css?family=Roboto:400,700");
+
+.input-lg {
+width: 100%;
 }
-@import url("//fonts.googleapis.com/css?family=Roboto:400,700");
-/*!
- * Bootswatch v3.2.0
- * Homepage: http://bootswatch.com
- * Copyright 2012-2014 Thomas Park
- * Licensed under MIT
- * Based on Bootstrap
-*/
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
+
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -1192,7 +1188,7 @@ a.bg-success:hover {
   background-color: #558000;
 }
 .bg-info {
-  background-color: #9933cc;
+  background-color: #2a9fd6;
 }
 a.bg-info:hover {
   background-color: #7a29a3;
@@ -2187,7 +2183,7 @@ table th[class*="col-"] {
 .table > thead > tr.info > th,
 .table > tbody > tr.info > th,
 .table > tfoot > tr.info > th {
-  background-color: #9933cc;
+  background-color: #2a9fd6;
 }
 .table-hover > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover,
@@ -2396,7 +2392,7 @@ input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
   line-height: 38px;
-  line-height: 1.42857143 \0;
+  line-height: 1.42857143 0;
 }
 input[type="date"].input-sm,
 input[type="time"].input-sm,
@@ -2887,8 +2883,8 @@ fieldset[disabled] .btn-success.active {
 }
 .btn-info {
   color: #ffffff;
-  background-color: #9933cc;
-  border-color: #9933cc;
+  background-color: #2a9fd6;
+  border-color: #2a9fd6;
 }
 .btn-info:hover,
 .btn-info:focus,
@@ -2896,8 +2892,8 @@ fieldset[disabled] .btn-success.active {
 .btn-info.active,
 .open > .dropdown-toggle.btn-info {
   color: #ffffff;
-  background-color: #7a29a3;
-  border-color: #74279b;
+  background-color: #0070ac;
+  border-color: #0070ac;
 }
 .btn-info:active,
 .btn-info.active,
@@ -2919,11 +2915,11 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: #9933cc;
-  border-color: #9933cc;
+  background-color: #2a9fd6;
+  border-color: #2a9fd6;
 }
 .btn-info .badge {
-  color: #9933cc;
+  color: #2a9fd6;
   background-color: #ffffff;
 }
 .btn-warning {
@@ -4474,7 +4470,7 @@ a.label:focus {
   background-color: #558000;
 }
 .label-info {
-  background-color: #9933cc;
+  background-color: #2a9fd6;
 }
 .label-info[href]:hover,
 .label-info[href]:focus {
@@ -4640,7 +4636,7 @@ a.thumbnail.active {
   color: #e6e6e6;
 }
 .alert-info {
-  background-color: #9933cc;
+  background-color: #2a9fd6;
   border-color: #6e2caf;
   color: #ffffff;
 }
@@ -4745,7 +4741,7 @@ a.thumbnail.active {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 .progress-bar-info {
-  background-color: #9933cc;
+  background-color: #2a9fd6;
 }
 .progress-striped .progress-bar-info {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -4899,7 +4895,7 @@ a.list-group-item-success.active:focus {
 }
 .list-group-item-info {
   color: #ffffff;
-  background-color: #9933cc;
+  background-color: #2a9fd6;
 }
 a.list-group-item-info {
   color: #ffffff;
@@ -5230,14 +5226,14 @@ a.list-group-item-danger.active:focus {
 }
 .panel-info > .panel-heading {
   color: #ffffff;
-  background-color: #9933cc;
+  background-color: #2a9fd6;
   border-color: #6e2caf;
 }
 .panel-info > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #6e2caf;
 }
 .panel-info > .panel-heading .badge {
-  color: #9933cc;
+  color: #2a9fd6;
   background-color: #ffffff;
 }
 .panel-info > .panel-footer + .panel-collapse > .panel-body {
@@ -6191,7 +6187,7 @@ button.close {
 }
 .text-info,
 .text-info:hover {
-  color: #9933cc;
+  color: #888888;
 }
 table,
 .table {
